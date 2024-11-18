@@ -108,10 +108,12 @@ io.on("connection", (socket) => {
 })
 
 setInterval(() => {
-  Object.entries(players).forEach(([_, player]) => {
+  for (const id in players) {
+    const player = players[id]
+
     checkFood(player)
     checkPlayer(player)
-  })
+  }
 
   io.emit("playersTick", players)
 }, 15)
