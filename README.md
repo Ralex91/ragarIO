@@ -2,12 +2,18 @@
 
 RagarIO is a very basic clone of [agar.io](https://agar.io/) game. The game is built using [express](https://expressjs.com/) and [socket.io](https://socket.io/).
 
-### Start the server
+- ### Install dependencies
 
-```bash
-npm run start
-```
+  ```bash
+  pnpm install
+  ```
 
-### Play the game
+- ### Start the server
 
-Open [localhost:3000](http://localhost:3000) in your browser.
+  ```bash
+  pnpm run start
+  ```
+
+- ### Play the game
+
+  Open [localhost:3000](http://localhost:3000) in your browser.
