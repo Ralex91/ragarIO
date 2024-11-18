@@ -78,7 +78,7 @@ const checkPlayer = (player) => {
 
 const newPlayer = (id, name) => ({
   id: id,
-  name: name || `Player ${id.slice(0, 4)}`,
+  name: name.slice(0, 20) || `Player ${id.slice(0, 4)}`,
   color: `hsl(${Math.random() * 360}, 50%, 50%)`,
   x: Math.random() * GAME_SIZE,
   y: Math.random() * GAME_SIZE,
