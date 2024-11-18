@@ -1,0 +1,24 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ragar.io</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="game.js" defer></script>
+  </head>
+  <body>
+    <div class="fixed text-white bottom-3 left-3 bg-black/50 p-4 rounded">
+      <p id="score"></p>
+      <p id="position"></p>
+    </div>
+    <div
+      class="fixed text-white top-3 right-3 bg-black/50 p-4 rounded w-full max-w-xs"
+    >
+      <h1 class="text-xl font-bold text-center mb-2">Leaderboard</h1>
+      <ul id="leaderboardList"></ul>
+    </div>
+    <canvas id="gameCanvas"></canvas>
+  </body>
+</html>
