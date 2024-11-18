@@ -57,18 +57,28 @@ const checkPlayer = (player) => {
         otherPlayer.y
       )
 
-      if (distance < player.radius + otherPlayer.radius / 2) {
-        player.radius += otherPlayer.radius
+      if (distance < player.radius - otherPlayer.radius / 2) {
+        if (player.radius > otherPlayer.radius) {
+          player.radius += otherPlayer.radius
+          io.to(player.id).emit("eatFood", player.radius)
+          io.to(otherPlayer.id).emit("die")
 
-        delete players[otherPlayer.id]
+          delete players[otherPlayer.id]
+        } else {
+          otherPlayer.radius += player.radius
+          io.to(otherPlayer.id).emit("eatFood", otherPlayer.radius)
+          io.to(player.id).emit("die")
+
+          delete players[player.id]
+        }
       }
     }
   })
 }
 
-const newPlayer = (id) => ({
+const newPlayer = (id, name) => ({
   id: id,
-  name: `Player ${id.slice(0, 4)}`,
+  name: name || `Player ${id.slice(0, 4)}`,
   color: `hsl(${Math.random() * 360}, 50%, 50%)`,
   x: Math.random() * GAME_SIZE,
   y: Math.random() * GAME_SIZE,
@@ -83,8 +93,10 @@ for (let i = 0; i < FOODS_COUNT; i++) {
 io.on("connection", (socket) => {
   console.log(`Player connected: ${socket.id}`)
 
-  players[socket.id] = newPlayer(socket.id)
-  socket.emit("init", { players, foodItems })
+  socket.on("join", (data) => {
+    players[socket.id] = newPlayer(socket.id, data.name)
+    socket.emit("init", { players, foodItems })
+  })
 
   socket.on("move", (data) => {
     // Check if the player is still in the game
@@ -108,12 +120,10 @@ io.on("connection", (socket) => {
 })
 
 setInterval(() => {
-  for (const id in players) {
-    const player = players[id]
-
+  Object.values(players).forEach((player) => {
     checkFood(player)
     checkPlayer(player)
-  }
+  })
 
   io.emit("playersTick", players)
 }, 15)

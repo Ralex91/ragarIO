@@ -15,18 +15,18 @@ const zoomSpeed = 0.05
 const canvas = document.getElementById("gameCanvas")
 const ctx = canvas.getContext("2d")
 
+const startScreen = document.getElementById("startScreen")
 const score = document.getElementById("score")
 const position = document.getElementById("position")
 const leaderboardList = document.getElementById("leaderboardList")
 
 socket.on("connect", () => {
   socket.on("init", (data) => {
+    startScreen.style.display = "none"
     players = data.players
     player = data.players[socket.id]
 
     foodItems = data.foodItems
-
-    setInterval(updateGame, 15)
     drawGame()
   })
 
@@ -41,7 +41,18 @@ socket.on("connect", () => {
   socket.on("eatFood", (data) => {
     player.radius = data
   })
+
+  socket.on("die", (data) => {
+    player = null
+
+    startScreen.style.display = "flex"
+  })
 })
+
+const join = () => {
+  const name = startScreen.querySelector("#username").value
+  socket.emit("join", { name })
+}
 
 const resize = () => {
   width = window.innerWidth
@@ -91,6 +102,10 @@ const updateHud = () => {
 
 const updateGame = () => {
   if (!socket.id) {
+    return
+  }
+
+  if (!player) {
     return
   }
 
@@ -178,6 +193,10 @@ const drawGame = () => {
     return
   }
 
+  if (!player) {
+    return
+  }
+
   requestAnimationFrame(drawGame)
 
   ctx.clearRect(0, 0, canvas.width, canvas.height)
@@ -197,3 +216,5 @@ const drawGame = () => {
 
   ctx.restore()
 }
+
+setInterval(updateGame, 15)

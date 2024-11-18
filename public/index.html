@@ -19,6 +19,36 @@
       <h1 class="text-xl font-bold text-center mb-2">Leaderboard</h1>
       <ul id="leaderboardList"></ul>
     </div>
+    <div
+      id="startScreen"
+      class="fixed text-white w-full h-full flex justify-center items-center bg-black/50 shadow-2xl"
+    >
+      <div>
+        <h1
+          class="text-4xl font-bold text-center mb-4 uppercase drop-shadow-sm"
+        >
+          Ragar.io
+        </h1>
+        <div
+          class="bg-white text-black p-4 rounded flex flex-col justify-center items-center"
+        >
+          Username
+          <input
+            type="text"
+            id="username"
+            placeholder="Enter your username"
+            class="border border-gray-300 rounded px-2 py-1 mb-2"
+          />
+          <button
+            onclick="join()"
+            id="start-button"
+            class="bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-4 rounded mt-2 w-full"
+          >
+            Play
+          </button>
+        </div>
+      </div>
+    </div>
     <canvas id="gameCanvas"></canvas>
   </body>
 </html>
